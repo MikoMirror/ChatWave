@@ -1,8 +1,9 @@
 package screens.login
 
+import ChatListScreen
+import ChatListScreenParams
 import androidx.compose.runtime.Composable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -10,12 +11,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
-import screens.main.MainScreen
 import screens.signUp.SignUpScreen
 import serverServices.Constants
 import serverServices.UserLogin
@@ -51,10 +50,8 @@ class LoginScreen() : Screen {
             Button(onClick = {
                 userLogin.loginUser(username, password) { success, token, message ->
                     if (success && token != null) {
-                        // Navigate to MainScreen with username and token
-                        navigator?.push(MainScreen(username, token))
+                        navigator?.push(ChatListScreen(ChatListScreenParams(username, token)))
                     } else {
-                        // Handle login error
                         println(message)
                     }
                 }

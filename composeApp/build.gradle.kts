@@ -46,8 +46,10 @@ kotlin {
             implementation("com.squareup.okhttp3:okhttp:4.11.0")
             implementation("org.json:json:20240303")
             implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+            implementation("io.socket:socket.io-client:2.1.0")
             //utils
             implementation("co.touchlab:kermit:2.0.3")
+            implementation("org.bitbucket.b_c:jose4j:0.9.3")
 
         }
         desktopMain.dependencies {

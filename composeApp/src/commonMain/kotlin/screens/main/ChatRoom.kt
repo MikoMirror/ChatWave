@@ -4,12 +4,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -123,8 +125,7 @@ class ChatRoomScreen(private val params: ChatRoomScreenParams) : Screen {
                     IconButton(onClick = {
                         if (newMessageText.isNotBlank()) {
                             val message = ChatMessage(sender = username, message = newMessageText)
-                            val messageJson = json.encodeToString(message)
-                            socket.emit("chat-message", messageJson)
+                            socket.emit("chat-message", mapOf("chatId" to chatId, "message" to newMessageText, "sender" to username))
                             newMessageText = ""
                         }
                     }) {
@@ -138,9 +139,10 @@ class ChatRoomScreen(private val params: ChatRoomScreenParams) : Screen {
 
 @Composable
 fun MessageCard(message: String, currentUser: String) {
-    val parts = message.split("<")
-    val sender = parts.getOrNull(1)?.split(">")?.getOrNull(0)?.trim() ?: ""
-    val isCurrentUser = sender == currentUser
+    val parts = message.split("]")
+    val messageContent = parts.getOrNull(0)?.drop(1)?.trim() ?: "" // Extract content
+    val messageTime = parts.getOrNull(1)?.trim() ?: "" // Extract time
+    val isCurrentUser = message.contains("<$currentUser>")
 
     Row(
         modifier = Modifier
@@ -150,13 +152,23 @@ fun MessageCard(message: String, currentUser: String) {
     ) {
         Column(
             modifier = Modifier
-                .padding(8.dp)
-                .background(if (isCurrentUser) Color.Blue else Color.LightGray),
+                .clip(RoundedCornerShape(16.dp))
+                .background(if (isCurrentUser) Color(0xFFDCF8C6) else Color.LightGray)
+                .padding(12.dp),
         ) {
             Text(
-                text = message,
-                fontWeight = FontWeight.Normal,
-                color = if (isCurrentUser) Color.White else Color.Black
+                text = messageTime,
+                fontSize = 16.sp,
+                color = Color.Black,
+                modifier = Modifier.align(Alignment.End)
+            )
+
+            Spacer(modifier = Modifier.height(4.dp))
+
+            Text(
+                text = "“$messageContent”",
+                fontSize = 12.sp,
+                color = Color.Gray
             )
         }
     }

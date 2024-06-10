@@ -71,10 +71,8 @@ class SignUpScreen() : Screen {
                     if (password == confirmPassword) {
                         userRegistration.registerUser(username, email, password) { success, message ->
                             if (success) {
-                                // Handle successful registration
                                 println(message)
                             } else {
-                                // Handle registration error
                                 println(message)
                             }
                         }

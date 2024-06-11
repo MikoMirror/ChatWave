@@ -1,4 +1,4 @@
-package serverServices
+package serverServices.RestClient
 
 import co.touchlab.kermit.Logger
 import kotlinx.serialization.json.Json

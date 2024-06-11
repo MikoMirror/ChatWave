@@ -37,6 +37,7 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
+            implementation("androidx.compose.material:material-icons-extended:1.6.7")
             implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1")
             //Voyager
             implementation("cafe.adriel.voyager:voyager-navigator:$voyagerVersion")
@@ -50,7 +51,6 @@ kotlin {
             //utils
             implementation("co.touchlab:kermit:2.0.3")
             implementation("org.bitbucket.b_c:jose4j:0.9.3")
-
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)

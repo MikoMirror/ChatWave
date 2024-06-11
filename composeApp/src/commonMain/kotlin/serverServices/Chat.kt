@@ -53,5 +53,3 @@ data class ChatParticipant(
 data class ChatResponse(
     val chats: List<Chat>
 )
-@Serializable
-data class FormattedChatMessage(val message: String)

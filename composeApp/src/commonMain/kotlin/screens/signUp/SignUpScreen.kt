@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import serverServices.Constants
-import serverServices.UserRegistration
+import serverServices.RestClient.UserRegistration
 
 class SignUpScreen() : Screen {
     @Composable

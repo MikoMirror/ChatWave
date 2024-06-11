@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -17,12 +18,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.core.screen.Screen
+import cafe.adriel.voyager.navigator.LocalNavigator
+import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.navigator.currentOrThrow
 import io.socket.client.IO
 import io.socket.client.Socket
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import serverServices.ChatMessage
 import serverServices.Constants
+import serverServices.Constants.SERVER_URL
+import serverServices.RestClient.ChatCreator
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -33,6 +39,7 @@ data class ChatRoomScreenParams(val chatId: String, val token: String, val usern
 class ChatRoomScreen(private val params: ChatRoomScreenParams) : Screen {
     @Composable
     override fun Content() {
+        val navigator = LocalNavigator.currentOrThrow
         val chatId = params.chatId
         val token = params.token
         val username = params.username
@@ -42,6 +49,8 @@ class ChatRoomScreen(private val params: ChatRoomScreenParams) : Screen {
         var errorMessage by remember { mutableStateOf<String?>(null) }
         val socket = remember { IO.socket(Constants.SERVER_URL) }
         val json = Json { ignoreUnknownKeys = true }
+        val chatCreator = remember { ChatCreator(SERVER_URL, token) }
+        val coroutineScope = rememberCoroutineScope()
 
         LaunchedEffect(Unit) {
             try {
@@ -82,7 +91,12 @@ class ChatRoomScreen(private val params: ChatRoomScreenParams) : Screen {
                 TopAppBar(
                     title = { Text("Chat Room", fontSize = 18.sp, fontWeight = FontWeight.Bold) },
                     backgroundColor = Color(0xFF17171F),
-                    contentColor = Color.White
+                    contentColor = Color.White,
+                    navigationIcon = {
+                        IconButton(onClick = { navigator.pop() }) {
+                            Icon(Icons.Filled.ArrowBack, contentDescription = "Back")
+                        }
+                    }
                 )
             }
         ) { innerPadding ->

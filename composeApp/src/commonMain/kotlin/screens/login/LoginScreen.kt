@@ -17,7 +17,7 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import screens.signUp.SignUpScreen
 import serverServices.Constants
-import serverServices.UserLogin
+import serverServices.RestClient.UserLogin
 
 class LoginScreen() : Screen {
     @Composable

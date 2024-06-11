@@ -25,7 +25,8 @@ class ChatFetcher(private val serverUrl: String, private val token: String) {
                     if (response.isSuccessful) {
                         try {
                             val responseBody = response.body?.string()
-                            val chatResponse = json.decodeFromString<ChatResponse>(responseBody ?: "")
+                            val chatResponse =
+                                json.decodeFromString<ChatResponse>(responseBody ?: "")
                             callback(Result.success(chatResponse.chats))
                         } catch (e: Exception) {
                             callback(Result.failure(Exception("Error parsing chats response: ${e.message}")))

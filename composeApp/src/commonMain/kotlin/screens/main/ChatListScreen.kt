@@ -53,11 +53,6 @@ class ChatListScreen(private val params: ChatListScreenParams) : Screen {
                     title = { Text("Messages", fontSize = 18.sp, fontWeight = FontWeight.Bold) },
                     backgroundColor = Color(0xFF17171F),
                     contentColor = Color.White,
-                    actions = {
-                        IconButton(onClick = { /* TODO: Navigate to Search */ }) {
-                            Icon(Icons.Filled.Search, contentDescription = "Search")
-                        }
-                    }
                 )
             },
             floatingActionButton = {
